@@ -1,0 +1,23 @@
+{
+  "name": "iot-dashboard-backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "axios": "^0.22.0",
+    "celebrate": "^15.0.0",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "mongoose": "^6.0.9",
+    "mongoose-paginate-v2": "^1.4.2",
+    "morgan": "~1.9.1",
+    "randomcolor": "^0.6.2"
+  }
+}
