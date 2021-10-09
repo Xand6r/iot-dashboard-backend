@@ -8,18 +8,22 @@ const mongoDBconnectionString = `mongodb+srv://nodeuser:Pa$$w0rd@cluster0.oocwe.
 const TYPES = ["flow", "pressure"];
 const MAX_VALUE = 1000;
 const MAX_SENSOR_COUNT = 10;
-const MAX_LAB = 5;
+const MAX_LAB = 6; //actually 5, but we're using math.floor
 
 const generateFakeDataPoint = () => {
-    const randValue = Math.round((Math.random() * MAX_VALUE), 2);
-    const randType = TYPES[Math.floor(Math.random() * TYPES.length)];
-    const randSensor = Math.floor(Math.random() * MAX_SENSOR_COUNT);
     const randLab = Math.ceil(Math.random() * MAX_LAB);
 
     const fake = {
-        "value": randValue,
-        "type": randType,
-        "sensor": randSensor,
+        "pressure": [
+          Math.round((Math.random() * MAX_VALUE), 2),
+          Math.round((Math.random() * MAX_VALUE), 2),
+          Math.round((Math.random() * MAX_VALUE), 2)
+        ],
+        "flow": [
+          Math.round((Math.random() * MAX_VALUE), 2),
+          Math.round((Math.random() * MAX_VALUE), 2),
+          Math.round((Math.random() * MAX_VALUE), 2)
+        ],
         "lab": randLab
     };
 
