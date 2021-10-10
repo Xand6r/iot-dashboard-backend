@@ -10,6 +10,7 @@ const DEFAULT_OPTIONS = {
   collation: {
     locale: "en",
   },
+  sort: '-data'
 };
 
 /* ADD data to the data base of the sensors */
@@ -17,10 +18,9 @@ router.post(
   "/add",
   celebrate({
     body: Joi.object({
-      value: Joi.number().required(),
-      type: ["pressure", "flow"],
-      sensor: Number,
-      lab: Number,
+      pressure: Joi.array(),
+      flow: Joi.array(),
+      lab: Joi.number(),
     }),
   }),
   async function (req, res) {
