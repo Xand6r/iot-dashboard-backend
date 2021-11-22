@@ -15,11 +15,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var socketHandlers = require('./socket');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+const http = require('http').createServer(app);
+
+// configure cors specifically to enable cors
+var io = require('socket.io')(http,{
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  },
+});
 
 app.use(cors());
 // view engine setup
@@ -34,6 +44,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+// deal with socket.io, run whenever a client connects
+io.on('connection', (socket) => {
+  socketHandlers(socket, io);
+  // set the socket instance at a global level so other controllers can use it
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -51,6 +67,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+
 // connect to mongoose using the string
 mongoose.connect(mongoDBconnectionString,{
   useNewUrlParser: true,
@@ -58,7 +76,7 @@ mongoose.connect(mongoDBconnectionString,{
 }).then((db) => {
   // listen for http requests
   console.log('sucesfully connected to DB. starting server...')
-  app.listen(PORT,() => console.log("app started on PORT:", PORT))
+  http.listen(PORT,() => console.log("app started on PORT:", PORT))
 }).catch((err) => {
   console.log(err);
   console.log('there was an error connecting to mongodb database')

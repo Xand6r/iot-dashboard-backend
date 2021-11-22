@@ -24,7 +24,10 @@ router.post(
     }),
   }),
   async function (req, res) {
+    const { io } = global.__socketInstance;
     const dataResults = await dataModel.create({ ...req.body });
+    // emit an event for real time sake
+    io.emit('NEW_DATA', dataResults);
     res.send(dataResults);
   }
 );
